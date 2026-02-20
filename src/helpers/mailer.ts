@@ -2,8 +2,8 @@ import { User } from "@/models/userModel";
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 
-const TOKEN = process.env.MAILTRAP_TOKEN;
 const USER = process.env.MAILTRAP_USER;
+const PASSWORD = process.env.MAILTRAP_PASSWORD;
 
 export const sendEmail = async ({ email, emailType, userId }: any) => {
   try {
@@ -21,17 +21,17 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       });
     }
 
-    const transport = nodemailer.createTransport({
+    var transport = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
         user: USER,
-        pass: TOKEN,
+        pass: PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: "codebydurvesh.com@gmail.com",
+      from: "noreply@yourdomain.com",
       to: email,
       subject:
         emailType === "VERIFY" ? "Verift your email" : "Reset your password",
