@@ -10,33 +10,34 @@ export async function POST(request: NextRequest) {
     const { token } = reqBody;
     console.log(token);
 
-    const user = await User.findOne({verifyToken: token, verifyTokenExpiry: {$gt: Date.now()}})
+    const user = await User.findOne({
+      verifyToken: token,
+      verifyTokenExpiry: { $gt: Date.now() },
+    });
 
-    if(!user) {
-        return NextResponse.json({error: "Invalid token, user not found!"}, {status: 500})
+    if (!user) {
+      return NextResponse.json(
+        { error: "Invalid token, user not found!" },
+        { status: 500 },
+      );
     }
 
-    console.log(user)
+    if (user.isVerified) {
+      return NextResponse.json({ message: "User if already verified" });
+    }
 
-    user.isVerified = true
-    user.verifyToken = undefined
-    user.verifyTokenExpiry = undefined
+    console.log(user);
 
-    await user.save()
+    user.isVerified = true;
+    user.verifyToken = undefined;
+    user.verifyTokenExpiry = undefined;
 
-    return NextResponse.json({ message: "Email verified sucessfully", success: true }, { status: 500 });
+    await user.save();
 
-    
-
-
-
-
-
-
-
-
-
-
+    return NextResponse.json(
+      { message: "Email verified sucessfully", success: true },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
