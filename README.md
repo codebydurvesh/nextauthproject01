@@ -1,7 +1,7 @@
 # Next.js Authentication App
 
 This is my first Next.js App, it has simple Authentication nothing complex. By building this I got to know how we write both the
-frontend and the backend in Next.js and also helpful things which Next.js provides. (Not a proper product project, just a project to understand the Nextjs Basics )
+frontend and the backend in Next.js and also helpful things which Next.js provides. (Not a proper production level project,but just a simple one to understand the Nextjs Basics )
 
 ---
 
