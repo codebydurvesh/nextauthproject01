@@ -79,7 +79,7 @@ export default function Page() {
               type="password"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
-              placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+              placeholder="password"
             />
           </div>
 
