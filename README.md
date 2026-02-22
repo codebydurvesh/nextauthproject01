@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Authentication App
+
+A full-stack authentication system built with **Next.js 16**, **MongoDB**, and **JWT** — featuring email verification, protected routes, and a dark minimalistic UI.
+
+---
+
+## Features
+
+- **Sign Up** — Register with username, email, and password (bcrypt-hashed)
+- **Sign In** — JWT-based authentication stored in HTTP-only cookies
+- **Email Verification** — Token-based verification via Mailtrap SMTP
+- **Protected Routes** — Middleware guards for authenticated/public paths
+- **Profile Page** — View account details and sign out
+- **Password Reset** — Token infrastructure for forgot-password flow
+
+## Tech Stack
+
+| Layer     | Technology              |
+| --------- | ----------------------- |
+| Framework | Next.js 16 (App Router) |
+| Language  | TypeScript              |
+| Database  | MongoDB (Mongoose ODM)  |
+| Auth      | JWT + bcryptjs          |
+| Email     | Nodemailer (Mailtrap)   |
+| Styling   | Tailwind CSS 4          |
+| HTTP      | Axios                   |
+| Toasts    | react-hot-toast         |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx              # Root layout (dark theme)
+│   ├── page.tsx                # Landing page
+│   ├── login/page.tsx          # Sign in form
+│   ├── signup/page.tsx         # Registration form
+│   ├── profile/page.tsx        # User profile (protected)
+│   ├── verifyemail/page.tsx    # Email verification handler
+│   └── api/users/
+│       ├── signup/route.ts     # POST — register user
+│       ├── login/route.ts      # POST — authenticate user
+│       ├── logout/route.ts     # GET  — clear auth cookie
+│       ├── profile/route.ts    # GET  — get current user
+│       └── verifyemail/route.ts# POST — verify email token
+├── dbConfig/dbConfig.ts        # MongoDB connection
+├── helpers/
+│   ├── getDataFromToken.ts     # Extract user ID from JWT
+│   └── mailer.ts               # Send verification/reset emails
+├── models/userModel.ts         # Mongoose user schema
+└── middleware.ts               # Route protection middleware
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- **Node.js** 18+
+- **MongoDB** instance (local or Atlas)
+- **Mailtrap** account (for email testing)
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd next_auth_project
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/<dbname>
+JWT_SECRET=your_jwt_secret_key
+DOMAIN=http://localhost:3000
+MAILTRAP_USER=your_mailtrap_user
+MAILTRAP_PASSWORD=your_mailtrap_password
+```
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Method | Endpoint                 | Description                   | Auth |
+| ------ | ------------------------ | ----------------------------- | ---- |
+| POST   | `/api/users/signup`      | Register a new user           | No   |
+| POST   | `/api/users/login`       | Authenticate & set JWT cookie | No   |
+| GET    | `/api/users/logout`      | Clear auth cookie             | Yes  |
+| GET    | `/api/users/profile`     | Get current user data         | Yes  |
+| POST   | `/api/users/verifyemail` | Verify email with token       | No   |
 
-## Learn More
+## Route Protection
 
-To learn more about Next.js, take a look at the following resources:
+The middleware at `src/middleware.ts` handles route guarding:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Public paths** (`/login`, `/signup`) — redirects to `/profile` if already authenticated
+- **Protected paths** (`/`, `/profile`) — redirects to `/login` if no valid token
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Create production build  |
+| `npm run start` | Start production server  |
+| `npm run lint`  | Run ESLint               |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is for educational purposes.
