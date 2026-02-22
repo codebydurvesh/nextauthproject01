@@ -44,16 +44,45 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col gap-2 border border-gray rounded-mb items-center justify-center">
-      <h1 className="p-2 text-2xl">Profile page</h1>
-      <p className="p-2 text-mb">username: {loading ? "loading" : username}</p>
-      <p className="p-2 text-mb">email: {loading ? "loading" : email}</p>
-      <button
-        className="p-3 w-25 mb-10 bg-red-600 text-white text-md rounded-2xl"
-        onClick={logoutHandler}
-      >
-        logout
-      </button>
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="w-full max-w-sm space-y-6">
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-zinc-800/60 border border-zinc-700/50 mb-1">
+            <span className="text-xl font-semibold text-blue-500">
+              {loading ? "..." : username.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">
+            Profile
+          </h1>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg">
+            <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+              Username
+            </span>
+            <span className="text-sm text-zinc-200">
+              {loading ? "Loading..." : username}
+            </span>
+          </div>
+          <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg">
+            <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+              Email
+            </span>
+            <span className="text-sm text-zinc-200">
+              {loading ? "Loading..." : email}
+            </span>
+          </div>
+        </div>
+
+        <button
+          className="w-full px-4 py-2.5 rounded-lg bg-red-600/10 text-red-500 text-sm font-medium border border-red-500/20 hover:bg-red-600/20 transition-colors duration-200 cursor-pointer"
+          onClick={logoutHandler}
+        >
+          Sign out
+        </button>
+      </div>
     </div>
   );
 }

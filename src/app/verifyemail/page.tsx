@@ -3,7 +3,6 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Flamenco } from "next/font/google";
 
 export default function page() {
   //   const router = useRouter();
@@ -37,26 +36,69 @@ export default function page() {
   }, [token]);
 
   return (
-    <div
-      className="flex flex-col items-center justify-center
-                    min-h-screen py-2"
-    >
-      <h1>Verify Email:</h1>
-      <h2 className="p-2 bg-orange-500 text-black">
-        {token ? `${token}` : "token not found"}
-      </h2>
-      {verified && (
-        <div>
-          <h2>Verified</h2>
-          <Link href="/login">Login</Link>
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="w-full max-w-sm space-y-6 text-center">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">
+            Email Verification
+          </h1>
+          <p className="text-sm text-zinc-500 font-mono truncate px-4">
+            {token ? token : "No token found"}
+          </p>
         </div>
-      )}
 
-      {error && (
-        <div>
-          <h2>Error</h2>
-        </div>
-      )}
+        {verified && (
+          <div className="space-y-4">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20">
+              <svg
+                className="w-6 h-6 text-green-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <p className="text-sm text-zinc-400">
+              Your email has been verified successfully.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-500 transition-colors duration-200"
+            >
+              Continue to sign in
+            </Link>
+          </div>
+        )}
+
+        {error && (
+          <div className="space-y-3">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20">
+              <svg
+                className="w-6 h-6 text-red-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </div>
+            <p className="text-sm text-red-400">
+              Verification failed. The token may be expired or invalid.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
